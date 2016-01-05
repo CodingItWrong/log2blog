@@ -6,16 +6,15 @@ module Log2Blog
     end
 
     def generate_markdown( user, repo )
-      @commits_api.all( user, repo ).reverse.map{ |item|
-        detail = @commits_api.get( user, repo, item["sha"] )
-        render_item(item, detail)
+      @commits_api.history( user, repo ).map{ |item|
+        render_item(item)
       }.join("\n")
     end
 
     private
 
-    def render_item(item, detail)
-      "#{item["commit"]["message"]}\n\n" + render_files( detail.body["files"] )
+    def render_item(item)
+      "#{item.message}\n\n" + render_files( item.files )
     end
 
     def render_files(files)
@@ -24,10 +23,10 @@ module Log2Blog
 
     def render_file(file)
       <<-EOT
-#{file["filename"]}
+#{file.filename}
 
 ```diff
-#{file["patch"]}
+#{file.patch}
 ```
       EOT
     end

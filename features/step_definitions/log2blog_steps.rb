@@ -1,40 +1,13 @@
 class GithubApi
-  def all( user, repo )
+  def history( user, repo )
     [
-      {
-        "sha" => "2",
-        "commit" => {
-          "message" => "Newest commit"
-        }
-      },
-      {
-        "sha" => "1",
-        "commit" => {
-          "message" => "Oldest commit"
-        }
-      }
+      Log2Blog::Commit.new( "1", "Oldest commit", [
+        Log2Blog::CommitFile.new( "test.rb", "+ Hello, world!" )
+      ]),
+      Log2Blog::Commit.new( "2", "Newest commit", [
+        Log2Blog::CommitFile.new( "test.rb", "- Hello, world!\n+ Hello, universe!" )
+      ]),
     ]
-  end
-
-  def get( user, repo, sha )
-    Struct.new(:body).new({
-      "1" => {
-        "files" => [
-          {
-            "filename" => "test.rb",
-            "patch" => "+ Hello, world!"
-          }
-        ]
-      },
-      "2" => {
-        "files" => [
-          {
-            "filename" => "test.rb",
-            "patch" => "- Hello, world!\n+ Hello, universe!"
-          }
-        ]
-      }
-    }[sha]);
   end
 end
 

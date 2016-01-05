@@ -9,7 +9,7 @@ module Log2Blog
       let(:github) { instance_double("Github") }
 
       before(:each) do
-        expect(github).to receive(:all).with( user, repo ).and_return(commits)
+        expect(github).to receive(:history).with( user, repo ).and_return(commits)
       end
 
       context "when there are no commits" do
@@ -24,87 +24,39 @@ module Log2Blog
       context "when there is one commit with one file" do
         let(:commits) {
           [
-            {
-              "sha" => "12345",
-              "commit" => {
-                "message" => "This is what this commit is"
-              }
-            }
+            Commit.new( "12345", "This is what this commit is", [
+              CommitFile.new("test.rb", "fakepatch")
+            ])
           ]
         }
 
-        let(:commit_detail) {
-          {
-            "files" => [
-              {
-                "filename" => "test.rb",
-                "patch" => <<-EOT
-- FOO
-+ BAR
-                EOT
-              }
-            ]
-          }
-        }
-        let(:commit_detail_response) {
-          double("response", body: commit_detail)
-        }
-
-        before(:each) do
-          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
-        end
-
         it "includes the message" do
           markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commits[0]["commit"]["message"])
+          expect(markdown).to include(commits[0].message)
         end
         it "includes the filename" do
           markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commit_detail["files"][0]["filename"])
+          expect(markdown).to include(commits[0].files[0].filename)
         end
         it "includes the patch" do
           markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commit_detail["files"][0]["patch"])
+          expect(markdown).to include(commits[0].files[0].patch)
         end
       end
 
       context "when there is one commit with two files" do
         let(:commits) {
           [
-            {
-              "sha" => "12345",
-              "commit" => {
-                "message" => "This is what this commit is"
-              }
-            }
+            Commit.new( "12345", "This is what this commit is", [
+              CommitFile.new("test1.rb", "patch"),
+              CommitFile.new("test2.rb", "patch")
+            ])
           ]
         }
 
-        let(:commit_detail) {
-          {
-            "files" => [
-              {
-                "filename" => "test1.rb",
-                "patch" => "patch"
-              },
-              {
-                "filename" => "test2.rb",
-                "patch" => "patch"
-              }
-            ]
-          }
-        }
-        let(:commit_detail_response) {
-          double("response", body: commit_detail)
-        }
-
-        before(:each) do
-          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
-        end
-
         it "includes the filenames in order" do
           markdown = generator.generate_markdown( user, repo )
-          positions = commit_detail["files"].map { |f| markdown.index f["filename"] }
+          positions = commits[0].files.map { |f| markdown.index f.filename }
           expect(sorted?(positions)).to eq(true)
         end
       end
@@ -112,39 +64,15 @@ module Log2Blog
       context "when there are two commits" do
         let(:commits) {
           [
-            {
-              "sha" => "2",
-              "commit" => {
-                "message" => "This is the newest commit"
-              }
-            },
-            {
-              "sha" => "1",
-              "commit" => {
-                "message" => "This is the oldest commit"
-              }
-            }
+            Commit.new( "2", "This is the newest commit", [] ),
+            Commit.new( "1", "This is the oldest commit", [] )
           ]
         }
 
-        let(:commit_detail) {
-          {
-            "files" => []
-          }
-        }
-        let(:commit_detail_response) {
-          double("response", body: commit_detail)
-        }
-
-        before(:each) do
-          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
-          allow(github).to receive(:get).with(user, repo, commits[1]["sha"]).and_return(commit_detail_response)
-        end
-
-        it "includes the commit messages in reverse order" do
+        it "includes the commit messages in order" do
           markdown = generator.generate_markdown( user, repo )
-          positions = commits.map { |c| markdown.index c["commit"]["message"] }
-          expect(sorted_in_reverse?(positions)).to eq(true)
+          positions = commits.map { |c| markdown.index c.message }
+          expect(sorted?(positions)).to eq(true)
         end
       end
     end
