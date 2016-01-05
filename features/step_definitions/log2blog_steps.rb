@@ -2,15 +2,15 @@ class GithubApi
   def all( user, repo )
     [
       {
-        "sha" => "1",
+        "sha" => "2",
         "commit" => {
-          "message" => "First commit"
+          "message" => "Newest commit"
         }
       },
       {
-        "sha" => "2",
+        "sha" => "1",
         "commit" => {
-          "message" => "Second commit"
+          "message" => "Oldest commit"
         }
       }
     ]
@@ -49,7 +49,7 @@ end
 
 Then(/^I should see the correct markdown$/) do
   expect(@markdown).to eq <<-EOT
-First commit
+Oldest commit
 
 test.rb
 
@@ -57,7 +57,7 @@ test.rb
 + Hello, world!
 ```
 
-Second commit
+Newest commit
 
 test.rb
 

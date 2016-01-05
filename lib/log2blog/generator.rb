@@ -6,7 +6,7 @@ module Log2Blog
     end
 
     def generate_markdown( user, repo )
-      @commits_api.all( user, repo ).map{ |item|
+      @commits_api.all( user, repo ).reverse.map{ |item|
         detail = @commits_api.get( user, repo, item["sha"] )
         render_item(item, detail)
       }.join("\n")

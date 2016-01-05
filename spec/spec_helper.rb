@@ -5,3 +5,7 @@ require "log2blog"
 def sorted?( array )
   array == array.sort
 end
+
+def sorted_in_reverse?( array )
+  array == array.sort.reverse
+end

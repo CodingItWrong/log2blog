@@ -108,6 +108,45 @@ module Log2Blog
           expect(sorted?(positions)).to eq(true)
         end
       end
+
+      context "when there are two commits" do
+        let(:commits) {
+          [
+            {
+              "sha" => "2",
+              "commit" => {
+                "message" => "This is the newest commit"
+              }
+            },
+            {
+              "sha" => "1",
+              "commit" => {
+                "message" => "This is the oldest commit"
+              }
+            }
+          ]
+        }
+
+        let(:commit_detail) {
+          {
+            "files" => []
+          }
+        }
+        let(:commit_detail_response) {
+          double("response", body: commit_detail)
+        }
+
+        before(:each) do
+          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
+          allow(github).to receive(:get).with(user, repo, commits[1]["sha"]).and_return(commit_detail_response)
+        end
+
+        it "includes the commit messages in reverse order" do
+          markdown = generator.generate_markdown( user, repo )
+          positions = commits.map { |c| markdown.index c["commit"]["message"] }
+          expect(sorted_in_reverse?(positions)).to eq(true)
+        end
+      end
     end
   end
 end
