@@ -51,7 +51,7 @@ module Log2Blog
         }
 
         before(:each) do
-          allow(github).to receive(:get).with(commits[0]["sha"]).and_return(commit_detail_response)
+          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
         end
 
         it "includes the message" do

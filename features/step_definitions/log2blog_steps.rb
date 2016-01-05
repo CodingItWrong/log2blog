@@ -16,7 +16,7 @@ class GithubApi
     ]
   end
 
-  def get( sha )
+  def get( user, repo, sha )
     Struct.new(:body).new({
       "1" => {
         "files" => [
