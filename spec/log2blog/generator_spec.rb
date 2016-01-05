@@ -3,27 +3,69 @@ require "spec_helper"
 module Log2Blog
   describe Generator do
     describe "#generate_markdown" do
-      let(:token) { "TestToken" }
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
-      let(:generator) { Log2Blog::Generator.new( token ) }
+      let(:generator) { Log2Blog::Generator.new( github ) }
+      let(:github) { instance_double("Github") }
 
-      it "returns the correct markdown" do
-        markdown = generator.generate_markdown( user, repo )
-        expect(markdown).to eq <<-EOT
-First commit
+      before(:each) do
+        expect(github).to receive(:all).with( user, repo ).and_return(commits)
+      end
 
-```diff
-+ Hello, world!
-```
+      context "when there are no commits" do
+        let(:commits) { [] }
 
-Second commit
+        it "returns an empty string" do
+          markdown = generator.generate_markdown( user, repo )
+          expect(markdown).to eq ""
+        end
+      end
 
-```diff
-- Hello, world!
-+ Hello, universe!
-```
-        EOT
+      context "when there is one commit with one file" do
+        let(:commits) {
+          [
+            {
+              "sha" => "12345",
+              "commit" => {
+                "message" => "This is what this commit is"
+              }
+            }
+          ]
+        }
+
+        let(:commit_detail) {
+          {
+            "files" => [
+              {
+                "filename" => "test.rb",
+                "patch" => <<-EOT
+- FOO
++ BAR
+                EOT
+              }
+            ]
+          }
+        }
+        let(:commit_detail_response) {
+          double("response", body: commit_detail)
+        }
+
+        before(:each) do
+          allow(github).to receive(:get).with(commits[0]["sha"]).and_return(commit_detail_response)
+        end
+
+        it "includes the message" do
+          markdown = generator.generate_markdown( user, repo )
+          expect(markdown).to include(commits[0]["commit"]["message"])
+        end
+        it "includes the filename" do
+          markdown = generator.generate_markdown( user, repo )
+          expect(markdown).to include(commit_detail["files"][0]["filename"])
+        end
+        it "includes the patch" do
+          markdown = generator.generate_markdown( user, repo )
+          expect(markdown).to include(commit_detail["files"][0]["patch"])
+        end
       end
     end
   end

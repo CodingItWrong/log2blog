@@ -6,6 +6,5 @@ Feature: developer generates markdown
 
   Scenario: generate markdown
     Given there is a GitHub repo
-    And I have a GitHub token
     When I generate markdown
     Then I should see the correct markdown
