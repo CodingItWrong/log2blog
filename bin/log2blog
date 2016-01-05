@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require "log2blog"
+require "github_api"
+require "dotenv"
+require "pry"
+
+Dotenv.load
+generator = Log2Blog::Generator.new( Github.new(oauth_token: ENV["OAUTH_TOKEN"]).repos.commits )
+puts generator.generate_markdown( ENV["GITHUB_USER"], ENV["GITHUB_REPO"] )
