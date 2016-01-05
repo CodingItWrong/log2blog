@@ -67,6 +67,47 @@ module Log2Blog
           expect(markdown).to include(commit_detail["files"][0]["patch"])
         end
       end
+
+      context "when there is one commit with two files" do
+        let(:commits) {
+          [
+            {
+              "sha" => "12345",
+              "commit" => {
+                "message" => "This is what this commit is"
+              }
+            }
+          ]
+        }
+
+        let(:commit_detail) {
+          {
+            "files" => [
+              {
+                "filename" => "test1.rb",
+                "patch" => "patch"
+              },
+              {
+                "filename" => "test2.rb",
+                "patch" => "patch"
+              }
+            ]
+          }
+        }
+        let(:commit_detail_response) {
+          double("response", body: commit_detail)
+        }
+
+        before(:each) do
+          allow(github).to receive(:get).with(user, repo, commits[0]["sha"]).and_return(commit_detail_response)
+        end
+
+        it "includes the filenames in order" do
+          markdown = generator.generate_markdown( user, repo )
+          positions = commit_detail["files"].map { |f| markdown.index f["filename"] }
+          expect(sorted?(positions)).to eq(true)
+        end
+      end
     end
   end
 end
