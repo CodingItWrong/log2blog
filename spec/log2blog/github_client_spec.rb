@@ -14,7 +14,7 @@ module Log2Blog
           { "sha" => "2", "commit" => { "message" => "Message 2" } },
           { "sha" => "1", "commit" => { "message" => "Message 1" } },
         ])
-        allow(commit_api).to receive(:get).with(user, repo, "1").and_return(
+        allow(commit_api).to receive(:get).with(any_args, "1").and_return(
           instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file1.txt", "patch" => "patch1" },
@@ -22,7 +22,7 @@ module Log2Blog
             ],
           })
         )
-        allow(commit_api).to receive(:get).with(user, repo, "2").and_return(
+        allow(commit_api).to receive(:get).with(any_args, "2").and_return(
           instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file3.txt", "patch" => "patch3" },
