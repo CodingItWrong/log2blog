@@ -6,10 +6,9 @@ module Log2Blog
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
       let(:generator) { Generator.new( github ) }
-      let(:github) { instance_double(GithubClient) }
+      let(:github) { instance_double(GithubClient, history: commits) }
 
       before(:each) do
-        allow(github).to receive(:history).and_return(commits)
         @markdown = generator.generate_markdown( user, repo )
       end
 
@@ -22,26 +21,28 @@ module Log2Blog
       end
 
       context "when there is one commit with one file" do
-        let(:commit) { FactoryGirl.build(:commit, files: FactoryGirl.build_list(:commit_file, 1)) }
         let(:commits) { [commit] }
+        let(:commit) { FactoryGirl.build(:commit, files: [file] ) }
+        let(:file) { FactoryGirl.build(:commit_file) }
 
         it "includes the message" do
           expect(@markdown).to include(commit.message)
         end
         it "includes the filename" do
-          expect(@markdown).to include(commit.files[0].filename)
+          expect(@markdown).to include(file.filename)
         end
         it "includes the patch" do
-          expect(@markdown).to include(commit.files[0].patch)
+          expect(@markdown).to include(file.patch)
         end
       end
 
       context "when there is one commit with two files" do
-        let(:commit) { FactoryGirl.build(:commit, files: FactoryGirl.build_list(:commit_file, 2) ) }
         let(:commits) { [commit] }
+        let(:commit) { FactoryGirl.build(:commit, files: files ) }
+        let(:files) { FactoryGirl.build_list(:commit_file, 2) }
 
         it "includes the filenames in order" do
-          positions = commit.files.map { |f| @markdown.index f.filename }
+          positions = files.map { |f| @markdown.index f.filename }
           expect(sorted?(positions)).to be true
         end
       end
