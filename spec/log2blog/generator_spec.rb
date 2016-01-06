@@ -10,14 +10,14 @@ module Log2Blog
 
       before(:each) do
         expect(github).to receive(:history).with( user, repo ).and_return(commits)
+        @markdown = generator.generate_markdown( user, repo )
       end
 
       context "when there are no commits" do
         let(:commits) { [] }
 
         it "returns an empty string" do
-          markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to eq ""
+          expect(@markdown).to eq ""
         end
       end
 
@@ -26,16 +26,13 @@ module Log2Blog
         let(:commits) { [commit] }
 
         it "includes the message" do
-          markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commit.message)
+          expect(@markdown).to include(commit.message)
         end
         it "includes the filename" do
-          markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commit.files[0].filename)
+          expect(@markdown).to include(commit.files[0].filename)
         end
         it "includes the patch" do
-          markdown = generator.generate_markdown( user, repo )
-          expect(markdown).to include(commit.files[0].patch)
+          expect(@markdown).to include(commit.files[0].patch)
         end
       end
 
@@ -44,8 +41,7 @@ module Log2Blog
         let(:commits) { [commit] }
 
         it "includes the filenames in order" do
-          markdown = generator.generate_markdown( user, repo )
-          positions = commit.files.map { |f| markdown.index f.filename }
+          positions = commit.files.map { |f| @markdown.index f.filename }
           expect(sorted?(positions)).to eq(true)
         end
       end
@@ -54,8 +50,7 @@ module Log2Blog
         let(:commits) { FactoryGirl.build_list( :commit, 2 ) }
 
         it "includes the commit messages in order" do
-          markdown = generator.generate_markdown( user, repo )
-          positions = commits.map { |c| markdown.index c.message }
+          positions = commits.map { |c| @markdown.index c.message }
           expect(sorted?(positions)).to eq(true)
         end
       end
