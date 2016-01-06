@@ -35,15 +35,6 @@ module Log2Blog
 
       subject! { api.history( user, repo ) }
 
-      it "should request the commit list from github" do
-        expect(commit_api).to have_received(:all).with(user, repo)
-      end
-
-      it "should request commit details from github" do
-        expect(commit_api).to have_received(:get).with(user, repo, "1")
-        expect(commit_api).to have_received(:get).with(user, repo, "2")
-      end
-
       it "should return equivalent Commit objects oldest-to-newest" do
         expect(subject).to eq([
           Commit.new( sha: "1", message: "Message 1", files: [
