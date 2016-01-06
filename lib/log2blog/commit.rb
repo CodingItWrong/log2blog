@@ -11,6 +11,7 @@ module Log2Blog
     end
 
     def ==(other)
+      return false if !other.instance_of?(Commit)
       self.sha == other.sha &&
         self.message == other.message &&
         self.files == other.files
