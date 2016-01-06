@@ -7,7 +7,7 @@ module Log2Blog
     end
 
     def history( user, repo )
-      raw_commits( user, repo ).reverse.map do |summary|
+      raw_commits( user, repo ).map do |summary|
         detail = raw_detail( user, repo, summary )
         build_commit( summary, detail )
       end
@@ -16,7 +16,7 @@ module Log2Blog
     private
 
     def raw_commits( user, repo )
-      @commit_api.all( user, repo )
+      @commit_api.all( user, repo ).reverse_each
     end
 
     def raw_detail( user, repo, item )
