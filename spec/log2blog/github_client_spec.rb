@@ -7,6 +7,8 @@ module Log2Blog
     let(:commit_api) { instance_double(Github::Client::Repos::Commits) }
 
     describe "#history" do
+      subject { api.history( "TestUser", "TestRepo" ) }
+
       before(:each) do
         allow(commit_api).to receive(:all).and_return([
           { "sha" => "2", "commit" => { "message" => "Message 2" } },
@@ -29,8 +31,6 @@ module Log2Blog
           })
         )
       end
-
-      subject { api.history( "TestUser", "TestRepo" ) }
 
       it "should return all commits" do
         expect(subject.length).to eq(2)
