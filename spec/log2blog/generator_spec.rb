@@ -3,13 +3,11 @@ require "spec_helper"
 module Log2Blog
   describe Generator do
     describe "#generate_markdown" do
-      let(:user) { "TestUser" }
-      let(:repo) { "TestRepo" }
       let(:generator) { Generator.new( github ) }
       let(:github) { instance_double(GithubClient, history: commits) }
 
       before(:each) do
-        @markdown = generator.generate_markdown( user, repo )
+        @markdown = generator.generate_markdown( "TestUser", "TestRepo" )
       end
 
       context "when there are no commits" do
