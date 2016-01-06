@@ -42,7 +42,7 @@ module Log2Blog
 
         it "includes the filenames in order" do
           positions = commit.files.map { |f| @markdown.index f.filename }
-          expect(sorted?(positions)).to eq(true)
+          expect(sorted?(positions)).to be true
         end
       end
 
@@ -51,7 +51,7 @@ module Log2Blog
 
         it "includes the commit messages in order" do
           positions = commits.map { |c| @markdown.index c.message }
-          expect(sorted?(positions)).to eq(true)
+          expect(sorted?(positions)).to be true
         end
       end
     end
