@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Log2Blog
   describe Generator do
-    subject(:generator) { Generator.new( github ) }
+    subject(:generator) { described_class.new( github ) }
     let(:github) { instance_double(GithubClient, history: commits) }
 
     describe "#generate_markdown" do
