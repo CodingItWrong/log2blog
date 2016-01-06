@@ -7,13 +7,36 @@ module Log2Blog
     end
 
     def history( user, repo )
-      @commit_api.all( user, repo ).reverse.map do |item|
-        detail = @commit_api.get( user, repo, item["sha"] )
-        Commit.new( sha: item["sha"], message: item["commit"]["message"],
-          files: detail.body["files"].map { |file|
-            CommitFile.new( name: file["filename"], diff: file["patch"] )
-          })
+      raw_commits( user, repo ).reverse.map do |summary|
+        detail = raw_detail( user, repo, summary )
+        build_commit( summary, detail )
       end
+    end
+
+    private
+
+    def raw_commits( user, repo )
+      @commit_api.all( user, repo )
+    end
+
+    def raw_detail( user, repo, item )
+      @commit_api.get( user, repo, item["sha"] )
+    end
+
+    def build_commit( summary, detail )
+      Commit.new(
+        sha: summary["sha"],
+        message: summary["commit"]["message"],
+        files: build_files( detail.body["files"] )
+      )
+    end
+
+    def build_files( raw_files )
+      raw_files.map { |f| build_file(f) }
+    end
+
+    def build_file( raw_file )
+      CommitFile.new( name: raw_file["filename"], diff: raw_file["patch"] )
     end
 
   end
