@@ -9,10 +9,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
 
-def sorted?( array )
-  array == array.sort
-end
-
-def sorted_in_reverse?( array )
-  array == array.sort.reverse
+RSpec::Matchers.define :be_sorted do
+  match do |actual|
+    actual == actual.sort
+  end
 end
