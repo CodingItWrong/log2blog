@@ -5,8 +5,8 @@ module Log2Blog
     describe "#generate_markdown" do
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
-      let(:generator) { Log2Blog::Generator.new( github ) }
-      let(:github) { instance_double("Github") }
+      let(:generator) { Generator.new( github ) }
+      let(:github) { instance_double("Log2Blog::GithubClient") }
 
       before(:each) do
         allow(github).to receive(:history).with( user, repo ).and_return(commits)
