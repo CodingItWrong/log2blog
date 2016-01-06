@@ -4,7 +4,7 @@ require "github_api"
 module Log2Blog
   describe GithubClient do
     describe "#history" do
-      let(:commit_api) { instance_double("Github::Client::Repos::Commits") }
+      let(:commit_api) { instance_double(Github::Client::Repos::Commits) }
       let(:api) { GithubClient.new(commit_api) }
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
@@ -15,7 +15,7 @@ module Log2Blog
           { "sha" => "1", "commit" => { "message" => "Message 1" } },
         ])
         allow(commit_api).to receive("get").with(user, repo, "1").and_return(
-          instance_double("Github::ResponseWrapper", body: {
+          instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file1.txt", "patch" => "patch1" },
               { "filename" => "file2.txt", "patch" => "patch2" },
@@ -23,7 +23,7 @@ module Log2Blog
           })
         )
         allow(commit_api).to receive("get").with(user, repo, "2").and_return(
-          instance_double("Github::ResponseWrapper", body: {
+          instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file3.txt", "patch" => "patch3" },
               { "filename" => "file4.txt", "patch" => "patch4" },

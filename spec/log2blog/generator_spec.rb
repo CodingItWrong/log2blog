@@ -6,7 +6,7 @@ module Log2Blog
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
       let(:generator) { Generator.new( github ) }
-      let(:github) { instance_double("Log2Blog::GithubClient") }
+      let(:github) { instance_double(GithubClient) }
 
       before(:each) do
         allow(github).to receive(:history).and_return(commits)
