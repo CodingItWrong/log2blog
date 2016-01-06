@@ -33,7 +33,7 @@ module Log2Blog
         )
       end
 
-      subject! { api.history( user, repo ) }
+      subject { api.history( user, repo ) }
 
       it "should return equivalent Commit objects oldest-to-newest" do
         expect(subject).to eq([
