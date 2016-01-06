@@ -35,17 +35,8 @@ module Log2Blog
 
       subject { api.history( user, repo ) }
 
-      it "should return equivalent Commit objects oldest-to-newest" do
-        expect(subject).to eq([
-          Commit.new( sha: "1", message: "Message 1", files: [
-            CommitFile.new( name: "file1.txt", diff: "patch1" ),
-            CommitFile.new( name: "file2.txt", diff: "patch2" ),
-          ]),
-          Commit.new( sha: "2", message: "Message 2", files: [
-            CommitFile.new( name: "file3.txt", diff: "patch3" ),
-            CommitFile.new( name: "file4.txt", diff: "patch4" ),
-          ]),
-        ])
+      it "should return SHAs oldest-to-newest" do
+        expect(subject.map(&:sha)).to eq(["1","2"])
       end
 
     end
