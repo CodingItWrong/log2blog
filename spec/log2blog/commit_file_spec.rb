@@ -3,7 +3,7 @@ require "spec_helper"
 module Log2Blog
   describe CommitFile do
 
-    describe "#initialize( name:, diff: )" do
+    describe ".initialize( name:, diff: )" do
 
       it "should be instantiable with all named params" do
         described_class.new( name: "myname", diff: "mydiff" )

@@ -5,7 +5,7 @@ module Log2Blog
 
     let(:all_params) { { sha: "mysha", message: "mymessage", files: "myfiles" } }
 
-    describe "#initialize( sha:, message:, files: )" do
+    describe ".initialize( sha:, message:, files: )" do
 
       it "should be instantiable with all named params" do
         described_class.new( all_params )
