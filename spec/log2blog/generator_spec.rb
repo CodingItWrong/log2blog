@@ -45,7 +45,7 @@ module Log2Blog
 
         it "includes the filenames in order" do
           markdown = generator.generate_markdown( user, repo )
-          positions = commits[0].files.map { |f| markdown.index f.filename }
+          positions = commit.files.map { |f| markdown.index f.filename }
           expect(sorted?(positions)).to eq(true)
         end
       end
