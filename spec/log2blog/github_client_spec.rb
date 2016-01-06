@@ -46,12 +46,12 @@ module Log2Blog
       it "should return equivalent Commit objects oldest-to-newest" do
         expect(subject).to eq([
           Commit.new( sha: "1", message: "Message 1", files: [
-            CommitFile.new( filename: "file1.txt", patch: "patch1" ),
-            CommitFile.new( filename: "file2.txt", patch: "patch2" ),
+            CommitFile.new( name: "file1.txt", diff: "patch1" ),
+            CommitFile.new( name: "file2.txt", diff: "patch2" ),
           ]),
           Commit.new( sha: "2", message: "Message 2", files: [
-            CommitFile.new( filename: "file3.txt", patch: "patch3" ),
-            CommitFile.new( filename: "file4.txt", patch: "patch4" ),
+            CommitFile.new( name: "file3.txt", diff: "patch3" ),
+            CommitFile.new( name: "file4.txt", diff: "patch4" ),
           ]),
         ])
       end

@@ -23,10 +23,10 @@ module Log2Blog
 
     def render_file(file)
       <<-EOT
-#{file.filename}
+#{file.name}
 
 ```diff
-#{file.patch}
+#{file.diff}
 ```
       EOT
     end

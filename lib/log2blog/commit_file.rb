@@ -1,16 +1,16 @@
 module Log2Blog
   class CommitFile
 
-    attr_reader :filename, :patch
+    attr_reader :name, :diff
 
-    def initialize( filename:, patch: )
-      @filename = filename
-      @patch = patch
+    def initialize( name:, diff: )
+      @name = name
+      @diff = diff
     end
 
     def ==(other)
-      self.filename == other.filename &&
-        self.patch == other.patch
+      self.name == other.name &&
+        self.diff == other.diff
     end
 
   end

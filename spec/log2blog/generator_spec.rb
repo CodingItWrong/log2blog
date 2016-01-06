@@ -19,8 +19,8 @@ module Log2Blog
         let(:file) { FactoryGirl.build(:commit_file) }
 
         it { should include(commit.message) }
-        it { should include(file.filename) }
-        it { should include(file.patch) }
+        it { should include(file.name) }
+        it { should include(file.diff) }
       end
 
       context "when there is one commit with two files" do
@@ -29,7 +29,7 @@ module Log2Blog
         let(:files) { FactoryGirl.build_list(:commit_file, 2) }
 
         it "includes the filenames in order" do
-          positions = files.map { |f| subject.index f.filename }
+          positions = files.map { |f| subject.index f.name }
           expect(positions).to be_sorted
         end
       end

@@ -1,11 +1,11 @@
 class GithubApi
   def history( user, repo )
     [
-      Log2Blog::Commit.new( "1", "Oldest commit", [
-        Log2Blog::CommitFile.new( "test.rb", "+ Hello, world!" )
+      Log2Blog::Commit.new( sha: "1", message: "Oldest commit", files: [
+        Log2Blog::CommitFile.new( name: "test.rb", diff: "+ Hello, world!" )
       ]),
-      Log2Blog::Commit.new( "2", "Newest commit", [
-        Log2Blog::CommitFile.new( "test.rb", "- Hello, world!\n+ Hello, universe!" )
+      Log2Blog::Commit.new( sha: "2", message: "Newest commit", files: [
+        Log2Blog::CommitFile.new( name: "test.rb", diff: "- Hello, world!\n+ Hello, universe!" )
       ]),
     ]
   end

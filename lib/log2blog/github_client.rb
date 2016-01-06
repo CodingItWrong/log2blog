@@ -11,7 +11,7 @@ module Log2Blog
         detail = @commit_api.get( user, repo, item["sha"] )
         Commit.new( sha: item["sha"], message: item["commit"]["message"],
           files: detail.body["files"].map { |file|
-            CommitFile.new( filename: file["filename"], patch: file["patch"] )
+            CommitFile.new( name: file["filename"], diff: file["patch"] )
           })
       end
     end
