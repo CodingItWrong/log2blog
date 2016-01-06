@@ -30,8 +30,7 @@ module Log2Blog
         let(:files) { FactoryGirl.build_list(:commit_file, 2) }
 
         it "includes the filenames in order" do
-          positions = files.map { |f| subject.index f.name }
-          expect(positions).to be_sorted
+          expect(subject).to contain_in_order( files.map(&:name) )
         end
       end
 
@@ -39,8 +38,7 @@ module Log2Blog
         let(:commits) { FactoryGirl.build_list( :commit, 2 ) }
 
         it "includes the commit messages in order" do
-          positions = commits.map { |c| subject.index c.message }
-          expect(positions).to be_sorted
+          expect(subject).to contain_in_order( commits.map(&:message) )
         end
       end
     end
