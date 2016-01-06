@@ -9,6 +9,7 @@ module Log2Blog
     end
 
     def ==(other)
+      return false if !other.instance_of?(CommitFile)
       self.name == other.name &&
         self.diff == other.diff
     end
