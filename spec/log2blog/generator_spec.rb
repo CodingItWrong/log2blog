@@ -6,16 +6,11 @@ module Log2Blog
       let(:generator) { Generator.new( github ) }
       let(:github) { instance_double(GithubClient, history: commits) }
 
-      before(:each) do
-        @markdown = generator.generate_markdown( "TestUser", "TestRepo" )
-      end
+      subject { generator.generate_markdown( "TestUser", "TestRepo" ) }
 
       context "when there are no commits" do
         let(:commits) { [] }
-
-        it "returns an empty string" do
-          expect(@markdown).to eq ""
-        end
+        it { should be_empty }
       end
 
       context "when there is one commit with one file" do
@@ -23,15 +18,9 @@ module Log2Blog
         let(:commit) { FactoryGirl.build(:commit, files: [file] ) }
         let(:file) { FactoryGirl.build(:commit_file) }
 
-        it "includes the message" do
-          expect(@markdown).to include(commit.message)
-        end
-        it "includes the filename" do
-          expect(@markdown).to include(file.filename)
-        end
-        it "includes the patch" do
-          expect(@markdown).to include(file.patch)
-        end
+        it { should include(commit.message) }
+        it { should include(file.filename) }
+        it { should include(file.patch) }
       end
 
       context "when there is one commit with two files" do
@@ -40,7 +29,7 @@ module Log2Blog
         let(:files) { FactoryGirl.build_list(:commit_file, 2) }
 
         it "includes the filenames in order" do
-          positions = files.map { |f| @markdown.index f.filename }
+          positions = files.map { |f| subject.index f.filename }
           expect(positions).to be_sorted
         end
       end
@@ -49,7 +38,7 @@ module Log2Blog
         let(:commits) { FactoryGirl.build_list( :commit, 2 ) }
 
         it "includes the commit messages in order" do
-          positions = commits.map { |c| @markdown.index c.message }
+          positions = commits.map { |c| subject.index c.message }
           expect(positions).to be_sorted
         end
       end
