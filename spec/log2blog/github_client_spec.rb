@@ -3,9 +3,10 @@ require "github_api"
 
 module Log2Blog
   describe GithubClient do
+    subject(:api) { described_class.new(commit_api) }
+    let(:commit_api) { instance_double(Github::Client::Repos::Commits) }
+
     describe "#history" do
-      let(:commit_api) { instance_double(Github::Client::Repos::Commits) }
-      let(:api) { GithubClient.new(commit_api) }
       let(:user) { "TestUser" }
       let(:repo) { "TestRepo" }
 
