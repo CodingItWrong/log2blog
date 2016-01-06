@@ -1,7 +1,5 @@
 module Log2Blog
 
-  CommitFile = Struct.new(:filename, :patch)
-
   class GithubClient
 
     def initialize(commit_api)
@@ -13,7 +11,7 @@ module Log2Blog
         detail = @commit_api.get( user, repo, item["sha"] )
         Commit.new( sha: item["sha"], message: item["commit"]["message"],
           files: detail.body["files"].map { |file|
-            CommitFile.new( file["filename"], file["patch"] )
+            CommitFile.new( filename: file["filename"], patch: file["patch"] )
           })
       end
     end
