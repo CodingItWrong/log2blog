@@ -14,7 +14,7 @@ module Log2Blog
           { "sha" => "1", "commit" => { "message" => "Message 1" } },
         ])
         allow(inner_api).to receive("get").with(user, repo, "1").and_return(
-          double("response", body: {
+          double(body: {
             "files" => [
               { "filename" => "file1.txt", "patch" => "patch1" },
               { "filename" => "file2.txt", "patch" => "patch2" },
@@ -22,7 +22,7 @@ module Log2Blog
           })
         )
         allow(inner_api).to receive("get").with(user, repo, "2").and_return(
-          double("response", body: {
+          double(body: {
             "files" => [
               { "filename" => "file3.txt", "patch" => "patch3" },
               { "filename" => "file4.txt", "patch" => "patch4" },
