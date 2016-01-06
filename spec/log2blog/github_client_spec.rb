@@ -10,11 +10,11 @@ module Log2Blog
       let(:repo) { "TestRepo" }
 
       before(:each) do
-        allow(commit_api).to receive("all").and_return([
+        allow(commit_api).to receive(:all).and_return([
           { "sha" => "2", "commit" => { "message" => "Message 2" } },
           { "sha" => "1", "commit" => { "message" => "Message 1" } },
         ])
-        allow(commit_api).to receive("get").with(user, repo, "1").and_return(
+        allow(commit_api).to receive(:get).with(user, repo, "1").and_return(
           instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file1.txt", "patch" => "patch1" },
@@ -22,7 +22,7 @@ module Log2Blog
             ],
           })
         )
-        allow(commit_api).to receive("get").with(user, repo, "2").and_return(
+        allow(commit_api).to receive(:get).with(user, repo, "2").and_return(
           instance_double(Github::ResponseWrapper, body: {
             "files" => [
               { "filename" => "file3.txt", "patch" => "patch3" },
@@ -35,12 +35,12 @@ module Log2Blog
       subject! { api.history( user, repo ) }
 
       it "should request the commit list from github" do
-        expect(commit_api).to have_received("all").with(user, repo)
+        expect(commit_api).to have_received(:all).with(user, repo)
       end
 
       it "should request commit details from github" do
-        expect(commit_api).to have_received("get").with(user, repo, "1")
-        expect(commit_api).to have_received("get").with(user, repo, "2")
+        expect(commit_api).to have_received(:get).with(user, repo, "1")
+        expect(commit_api).to have_received(:get).with(user, repo, "2")
       end
 
       it "should return equivalent Commit objects oldest-to-newest" do
