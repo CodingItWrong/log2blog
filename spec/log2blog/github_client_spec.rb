@@ -6,7 +6,7 @@ module Log2Blog
     subject(:api) { described_class.new(commit_api) }
     let(:commit_api) { instance_double(Github::Client::Repos::Commits) }
 
-    describe "#history" do
+    describe "#history( user, repo )" do
       subject { api.history( "TestUser", "TestRepo" ) }
 
       before(:each) do
