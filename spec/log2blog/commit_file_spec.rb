@@ -27,7 +27,7 @@ module Log2Blog
 
     end
 
-    context "instance methods" do
+    context "instance" do
 
       subject { described_class.new( name: "myname", diff: "mydiff" ) }
 
