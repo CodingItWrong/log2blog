@@ -9,7 +9,7 @@ module Log2Blog
       let(:github) { instance_double("Github") }
 
       before(:each) do
-        expect(github).to receive(:history).with( user, repo ).and_return(commits)
+        allow(github).to receive(:history).with( user, repo ).and_return(commits)
         @markdown = generator.generate_markdown( user, repo )
       end
 
