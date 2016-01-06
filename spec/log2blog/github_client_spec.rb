@@ -35,8 +35,20 @@ module Log2Blog
 
       subject { api.history( user, repo ) }
 
+      it "should return all commits" do
+        expect(subject.length).to eq(2)
+      end
+
       it "should return SHAs oldest-to-newest" do
         expect(subject.map(&:sha)).to eq(["1","2"])
+      end
+
+      it "should return all files for each commit" do
+        subject.each { |c| expect(c.files.length).to eq(2) }
+      end
+
+      it "should return files in order" do
+        expect(subject.map { |c| c.files.map(&:name) }).to eq([["file1.txt","file2.txt"], ["file3.txt", "file4.txt"]])
       end
 
     end
