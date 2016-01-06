@@ -40,12 +40,20 @@ module Log2Blog
         expect(subject.map(&:sha)).to eq(["1","2"])
       end
 
+      it "should return messages" do
+        expect(subject.map(&:message)).to eq(["Message 1", "Message 2"])
+      end
+
       it "should return all files for each commit" do
         subject.each { |c| expect(c.files.length).to eq(2) }
       end
 
-      it "should return files in order" do
+      it "should return file names in order" do
         expect(subject.map { |c| c.files.map(&:name) }).to eq([["file1.txt","file2.txt"], ["file3.txt", "file4.txt"]])
+      end
+
+      it "should return file diffs in order" do
+        expect(subject.map { |c| c.files.map(&:diff) }).to eq([["patch1","patch2"], ["patch3", "patch4"]])
       end
 
     end
