@@ -1,19 +1,18 @@
 module Log2Blog
   class Generator
 
-    def initialize(commits_api = Github_api.new.repos.commits)
+    def initialize(commits_api = Github_api.new.repos.commits, renderer = Renderer.new)
       @commits_api = commits_api
+      @renderer = renderer
     end
 
     def generate_markdown(user, repo, starting_commit = nil)
-      commits_to_include(user, repo, starting_commit)
-        .map(&method(:render_commit))
-        .join("\n")
+      renderer.render(commits_to_include(user, repo, starting_commit))
     end
 
     private
 
-    attr_reader :commits_api
+    attr_reader :commits_api, :renderer
 
     def commits_to_include(user, repo, starting_commit)
       commits = all_commits(user, repo)
@@ -32,24 +31,6 @@ module Log2Blog
 
     def all_commits(user, repo)
       commits_api.history(user, repo)
-    end
-
-    def render_commit(commit)
-      "\#\# #{commit.message}\n\n" + render_files( commit.files )
-    end
-
-    def render_files(files)
-      files.map { |file| render_file(file) }.join("\n\n")
-    end
-
-    def render_file(file)
-      <<-EOT
-\#\#\# #{file.name}
-
-```diff
-#{file.diff}
-```
-      EOT
     end
   end
 end

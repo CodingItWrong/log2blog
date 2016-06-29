@@ -2,41 +2,23 @@ require "spec_helper"
 
 module Log2Blog
   describe Generator do
-    subject(:generator) { described_class.new( github ) }
+    subject(:generator) { described_class.new(github, renderer) }
     let(:github) { instance_double(GithubClient, history: commits) }
+    let(:renderer) { instance_double(Renderer) }
 
     describe "#generate_markdown( user, repo, starting_commit )" do
 
-      subject { generator.generate_markdown( "TestUser", "TestRepo", starting_commit_hash ) }
+      subject(:generate!) { generator.generate_markdown( "TestUser", "TestRepo", starting_commit_hash ) }
       let(:starting_commit_hash) { nil }
 
-      context "when there are no commits" do
-        let(:commits) { [] }
+      context "when there is no starting commit" do
+        let(:commits) { FactoryGirl.build_list(:commit, 3) }
+        let(:starting_commit_hash) { nil }
 
-        it { should be_empty }
-      end
-
-      context "when there is one commit with one file" do
-        let(:commits) { [commit] }
-        let(:commit) { FactoryGirl.build(:commit, files: [file] ) }
-        let(:file) { FactoryGirl.build(:commit_file) }
-
-        it { should include(commit.message) }
-        it { should include(file.name) }
-        it { should include(file.diff) }
-      end
-
-      context "when there is one commit with two files" do
-        let(:commits) { [FactoryGirl.build(:commit, files: files )] }
-        let(:files) { FactoryGirl.build_list(:commit_file, 2) }
-
-        it { is_expected.to contain_in_order( files.map(&:name) ) }
-      end
-
-      context "when there are two commits" do
-        let(:commits) { FactoryGirl.build_list( :commit, 2 ) }
-
-        it { is_expected.to contain_in_order( commits.map(&:message) ) }
+        it "renders all commits" do
+          expect(renderer).to receive(:render).with(commits)
+          generate!
+        end
       end
 
       context "when there is a starting commit" do
@@ -48,8 +30,10 @@ module Log2Blog
 
         let(:starting_commit_hash) { starting_commit.sha }
 
-        it { is_expected.to_not include(too_old_commit.message) }
-        it { is_expected.to contain_in_order( rendered_commits.map(&:message) ) }
+        it "renders the starting commit and later" do
+          expect(renderer).to receive(:render).with(rendered_commits)
+          generate!
+        end
       end
     end
   end
