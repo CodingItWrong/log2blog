@@ -14,7 +14,7 @@ module Log2Blog
     private
 
     def render_commit(commit)
-      "#{commit.message}\n\n" + render_files( commit.files )
+      "\#\# #{commit.message}\n\n" + render_files( commit.files )
     end
 
     def render_files(files)
@@ -23,7 +23,7 @@ module Log2Blog
 
     def render_file(file)
       <<-EOT
-#{file.name}
+\#\#\# #{file.name}
 
 ```diff
 #{file.diff}
