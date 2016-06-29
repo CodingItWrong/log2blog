@@ -7,9 +7,17 @@ require "dotenv"
 require "pry"
 
 Dotenv.load
+
+if ARGV.any?
+  user, repo = ARGV[0].split("/", 2)
+else
+  user = ENV["GITHUB_USER"]
+  repo = ENV["GITHUB_REPO"]
+end
+
 generator = Log2Blog::Generator.new(
   Log2Blog::GithubClient.new(
     Github.new(oauth_token: ENV["GITHUB_OAUTH_TOKEN"]).repos.commits
   )
 )
-puts generator.generate_markdown( ENV["GITHUB_USER"], ENV["GITHUB_REPO"] )
+puts generator.generate_markdown(user, repo)
