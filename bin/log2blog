@@ -10,6 +10,7 @@ Dotenv.load
 
 if ARGV.any?
   user, repo = ARGV[0].split("/", 2)
+  starting_commit = ARGV[1]
 else
   user = ENV["GITHUB_USER"]
   repo = ENV["GITHUB_REPO"]
@@ -20,4 +21,4 @@ generator = Log2Blog::Generator.new(
     Github.new(oauth_token: ENV["GITHUB_OAUTH_TOKEN"]).repos.commits
   )
 )
-puts generator.generate_markdown(user, repo)
+puts generator.generate_markdown(user, repo, starting_commit)
