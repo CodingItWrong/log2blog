@@ -1,12 +1,12 @@
 module Log2Blog
   class Generator
 
-    def initialize(commits_api = Github_api.new.repos.commits, renderer = Renderer.new)
+    def initialize(commits_api: Github_api.new.repos.commits, renderer: Renderer.new)
       @commits_api = commits_api
       @renderer = renderer
     end
 
-    def generate_markdown(user, repo, starting_commit = nil)
+    def generate_markdown(user:, repo:, starting_commit: nil)
       renderer.render(commits_to_include(user, repo, starting_commit))
     end
 

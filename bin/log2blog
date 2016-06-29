@@ -17,8 +17,10 @@ else
 end
 
 generator = Log2Blog::Generator.new(
-  Log2Blog::GithubClient.new(
+  commits_api: Log2Blog::GithubClient.new(
     Github.new(oauth_token: ENV["GITHUB_OAUTH_TOKEN"]).repos.commits
   )
 )
-puts generator.generate_markdown(user, repo, starting_commit)
+puts generator.generate_markdown(user: user,
+                                 repo: repo,
+                                 starting_commit: starting_commit)

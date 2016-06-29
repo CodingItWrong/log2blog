@@ -2,13 +2,15 @@ require "spec_helper"
 
 module Log2Blog
   describe Generator do
-    subject(:generator) { described_class.new(github, renderer) }
+    subject(:generator) { described_class.new(commits_api: github, renderer: renderer) }
     let(:github) { instance_double(GithubClient, history: commits) }
     let(:renderer) { instance_double(Renderer) }
 
     describe "#generate_markdown( user, repo, starting_commit )" do
 
-      subject(:generate!) { generator.generate_markdown( "TestUser", "TestRepo", starting_commit_hash ) }
+      subject(:generate!) { generator.generate_markdown(user: "TestUser",
+                                                        repo: "TestRepo",
+                                                        starting_commit: starting_commit_hash ) }
       let(:starting_commit_hash) { nil }
 
       context "when there is no starting commit" do
