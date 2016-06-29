@@ -9,7 +9,7 @@ require "pry"
 Dotenv.load
 generator = Log2Blog::Generator.new(
   Log2Blog::GithubClient.new(
-    Github.new(oauth_token: ENV["OAUTH_TOKEN"]).repos.commits
+    Github.new(oauth_token: ENV["GITHUB_OAUTH_TOKEN"]).repos.commits
   )
 )
 puts generator.generate_markdown( ENV["GITHUB_USER"], ENV["GITHUB_REPO"] )
