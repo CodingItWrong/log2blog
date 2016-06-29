@@ -6,15 +6,15 @@ module Log2Blog
     end
 
     def generate_markdown( user, repo )
-      @commits_api.history( user, repo ).map{ |item|
-        render_item(item)
+      @commits_api.history( user, repo ).map{ |commit|
+        render_commit(commit)
       }.join("\n")
     end
 
     private
 
-    def render_item(item)
-      "#{item.message}\n\n" + render_files( item.files )
+    def render_commit(commit)
+      "#{commit.message}\n\n" + render_files( commit.files )
     end
 
     def render_files(files)
