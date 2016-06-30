@@ -16,10 +16,14 @@ else
   repo = ENV["GITHUB_REPO"]
 end
 
+# todo make a command-line arg
+filenames_to_exclude = %w(composer.lock)
+
 generator = Log2Blog::Generator.new(
   commits_api: Log2Blog::GithubClient.new(
     Github.new(oauth_token: ENV["GITHUB_OAUTH_TOKEN"]).repos.commits
-  )
+  ),
+  renderer: Log2Blog::Renderer.new(exclude: filenames_to_exclude)
 )
 puts generator.generate_markdown(user: user,
                                  repo: repo,
