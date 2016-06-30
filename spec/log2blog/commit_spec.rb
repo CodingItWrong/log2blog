@@ -77,6 +77,12 @@ module Log2Blog
 
       end
 
+      context "url" do
+        it "should render a github commit url" do
+          expect(subject.url).to eq("https://github.com/user/repo/commit/mysha")
+        end
+      end
+
       context "==" do
 
         it "should be equal to another commit with identical fields" do

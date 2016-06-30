@@ -12,6 +12,10 @@ module Log2Blog
       @files = files
     end
 
+    def url
+      "https://github.com/#{user}/#{repo}/commit/#{sha}"
+    end
+
     def ==(other)
       return false if !other.instance_of?(Commit)
       self.sha == other.sha &&

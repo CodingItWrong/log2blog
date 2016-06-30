@@ -9,7 +9,8 @@ module Log2Blog
     private
 
     def render_commit(commit)
-      "\#\#\# #{commit.message}\n\n" + render_files( commit.files )
+      "\#\#\# [#{github_icon}](#{commit.url}) #{commit.message}\n\n" +
+        render_files( commit.files )
     end
 
     def render_files(files)
@@ -24,6 +25,10 @@ module Log2Blog
 #{file.diff}
 ```
       EOT
+    end
+
+    def github_icon
+      '<span class="octicon octicon-mark-github"></span>'
     end
   end
 end
