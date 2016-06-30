@@ -2,6 +2,8 @@
 
 Convert a GitHub commit log into markdown for a blog post, page, etc.
 
+As an example of an article generated via Log2Blog, see [learntdd.in/rails](http://learntdd.in/rails/).
+
 ## Usage
 
 Not yet set up to be an installable gem; for now, download the repo and run it from the project root.
