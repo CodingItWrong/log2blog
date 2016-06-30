@@ -35,7 +35,7 @@ module Log2Blog
 \#\#\#\# #{file.name}
 
 ```diff
-#{file.diff}
+#{file.diff_body}
 ```
       EOT
     end

@@ -29,7 +29,8 @@ module Log2Blog
 
     context "instance" do
 
-      subject { described_class.new( name: "myname", diff: "mydiff" ) }
+      subject { described_class.new( name: "myname", diff: diff ) }
+      let(:diff) { "@@ -0,0 +1,1 @@\n+hello, diff" }
 
       context "readers" do
 
@@ -38,7 +39,15 @@ module Log2Blog
         end
 
         it "should allow accessing the diff" do
-          expect(subject.diff).to eq("mydiff")
+          expect(subject.diff).to eq(diff)
+        end
+
+        it "should allow accessing the diff header" do
+          expect(subject.diff_header).to eq("@@ -0,0 +1,1 @@")
+        end
+
+        it "should allow accessing the diff body" do
+          expect(subject.diff_body).to eq("+hello, diff")
         end
 
       end

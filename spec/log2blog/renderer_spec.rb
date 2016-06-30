@@ -18,12 +18,19 @@ module Log2Blog
       context "when there is one commit with one file" do
         let(:commits) { [commit] }
         let(:commit) { FactoryGirl.build(:commit, files: [file] ) }
-        let(:file) { FactoryGirl.build(:commit_file) }
+        let(:file) { FactoryGirl.build(:commit_file, diff: "@@ -0,0 +1,1 @@\n+hello, diff") }
 
         it { should include(commit.subject) }
         it { should include(commit.description) }
         it { should include(file.name) }
-        it { should include(file.diff) }
+
+        it "should include the diff body" do
+          expect(subject).to include("+hello, diff")
+        end
+
+        it "should not include the diff header line" do
+          expect(subject).to_not include("@@ -0,0 +1,1 @@")
+        end
       end
 
       context "when there is one commit with two files" do
