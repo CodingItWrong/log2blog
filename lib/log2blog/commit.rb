@@ -2,9 +2,11 @@ module Log2Blog
 
   class Commit
 
-    attr_reader :sha, :message, :files
+    attr_reader :user, :repo, :sha, :message, :files
 
-    def initialize( sha:, message:, files: )
+    def initialize( user:, repo:, sha:, message:, files: )
+      @user = user
+      @repo = repo
       @sha = sha
       @message = message
       @files = files

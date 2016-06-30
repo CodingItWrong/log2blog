@@ -9,7 +9,7 @@ module Log2Blog
     def history( user, repo )
       raw_commits( user, repo ).map do |summary|
         detail = raw_detail( user, repo, summary )
-        build_commit( summary, detail )
+        build_commit( user, repo, summary, detail )
       end
     end
 
@@ -23,8 +23,10 @@ module Log2Blog
       @commit_api.get( user, repo, item["sha"] )
     end
 
-    def build_commit( summary, detail )
+    def build_commit( user, repo, summary, detail )
       Commit.new(
+        user: user,
+        repo: repo,
         sha: summary["sha"],
         message: summary["commit"]["message"],
         files: build_files( detail.body["files"] )

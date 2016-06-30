@@ -3,7 +3,11 @@ require "spec_helper"
 module Log2Blog
   describe Commit do
 
-    let(:all_params) { { sha: "mysha", message: "mymessage", files: "myfiles" } }
+    let(:all_params) { { user: "user",
+                         repo: "repo",
+                         sha: "mysha",
+                         message: "mymessage",
+                         files: "myfiles" } }
 
     describe ".initialize( sha:, message:, files: )" do
 
@@ -80,7 +84,11 @@ module Log2Blog
         end
 
         it "should not be equal to another commit with different fields" do
-          other = described_class.new( sha: "other", message: "other", files: ["other"] )
+          other = described_class.new( user: "other",
+                                       repo: "other",
+                                       sha: "other",
+                                       message: "other",
+                                       files: ["other"] )
           expect(subject == other).to be false
         end
 
