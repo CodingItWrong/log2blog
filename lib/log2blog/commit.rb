@@ -12,6 +12,14 @@ module Log2Blog
       @files = files
     end
 
+    def subject
+      message_lines.first
+    end
+
+    def description
+      message_lines[1..(message_lines.length)].join("\n")
+    end
+
     def url
       "https://github.com/#{user}/#{repo}/commit/#{sha}"
     end
@@ -21,6 +29,12 @@ module Log2Blog
       self.sha == other.sha &&
         self.message == other.message &&
         self.files == other.files
+    end
+
+    private
+
+    def message_lines
+      message.split("\n")
     end
 
   end

@@ -19,7 +19,8 @@ module Log2Blog
         let(:commit) { FactoryGirl.build(:commit, files: [file] ) }
         let(:file) { FactoryGirl.build(:commit_file) }
 
-        it { should include(commit.message) }
+        it { should include(commit.subject) }
+        it { should include(commit.description) }
         it { should include(file.name) }
         it { should include(file.diff) }
       end

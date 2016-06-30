@@ -9,8 +9,9 @@ module Log2Blog
     private
 
     def render_commit(commit)
-      "\#\#\# [#{github_icon}](#{commit.url}) #{commit.message}\n\n" +
-        render_files( commit.files )
+      "\#\#\# #{commit.subject} [#{github_icon}](#{commit.url})\n\n" +
+        render_files( commit.files ) +
+        "#{commit.description}\n\n"
     end
 
     def render_files(files)

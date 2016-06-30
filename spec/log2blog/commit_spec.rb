@@ -6,8 +6,9 @@ module Log2Blog
     let(:all_params) { { user: "user",
                          repo: "repo",
                          sha: "mysha",
-                         message: "mymessage",
+                         message: message,
                          files: "myfiles" } }
+    let(:message) { "mysubject\nmydescription\nmoredescription" }
 
     describe ".initialize( sha:, message:, files: )" do
 
@@ -59,6 +60,22 @@ module Log2Blog
           expect(subject.files).to eq(all_params[:files])
         end
 
+        it "should render a github commit url" do
+          expect(subject.url).to eq("https://github.com/user/repo/commit/mysha")
+        end
+
+        it "should provide access to the commit subject" do
+          expect(subject.subject).to eq("mysubject")
+        end
+
+        it "should provide access to the commit description" do
+          expect(subject.description).to eq("mydescription\nmoredescription")
+        end
+
+        context "when there is no commit description" do
+          let(:message) { "mysubject" }
+          specify { expect(subject.description).to eq("") }
+        end
       end
 
       context "writers" do
@@ -75,12 +92,6 @@ module Log2Blog
           expect { subject.files = "fail" }.to raise_error(NoMethodError)
         end
 
-      end
-
-      context "url" do
-        it "should render a github commit url" do
-          expect(subject.url).to eq("https://github.com/user/repo/commit/mysha")
-        end
       end
 
       context "==" do
