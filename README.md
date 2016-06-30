@@ -7,6 +7,7 @@ Convert a GitHub commit log into markdown for a blog post, page, etc.
 Not yet set up to be an installable gem; for now, download the repo and run it from the project root.
 
 ```
+bundle install
 echo "GITHUB_OAUTH_TOKEN=b52c0626e6badbad25d1c5c18f33c2ff0275641c" > .env
 bin/log2blog github-username/repo-name
 ```
