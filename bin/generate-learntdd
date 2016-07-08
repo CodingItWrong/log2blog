@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 mkdir out
-bin/log2blog learn-tdd-in/ember 9efbf887fcfc56c661a348c098c5f95bd98c9f31 > ~/apps/learntdd.in/site.in/ember/_commits.md
-bin/log2blog learn-tdd-in/laravel b0777fb9e0e358025fc0a43f1ceff5e17d7db6f9 > ~/apps/learntdd.in/site.in/laravel/_commits.md
-bin/log2blog learn-tdd-in/rails 22ab5a326159a638c11ff9132c4be966ff654022 > ~/apps/learntdd.in/site.in/rails/_commits.md
+
+echo "ember"
+bin/log2blog learn-tdd-in/ember e64efbc3eacca7ad333000a68d9a225b88cc9917 > ~/apps/learntdd.in/site/ember/_commits.md
+
+echo "laravel"
+bin/log2blog learn-tdd-in/laravel 3589775872c38dba6c067ffaf3cec87ca9aad53e > ~/apps/learntdd.in/site/laravel/_commits.md
+
+echo "rails"
+bin/log2blog learn-tdd-in/rails 5919833ab95bd189ea1a5feb15ba369e801d3b24 > ~/apps/learntdd.in/site/rails/_commits.md
