@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "github_api"
+gemspec
+
 gem "pry"
-gem "dotenv"
 gem "rspec"
 gem "factory_girl"
