@@ -25,12 +25,12 @@ module Log2Blog
 
       context "when there is a starting commit" do
         let(:too_old_commit) { FactoryGirl.build(:commit) }
-        let(:starting_commit) { FactoryGirl.build(:commit) }
+        let(:starting_commit) { FactoryGirl.build(:commit, sha: "myprefix123") }
         let(:newer_commit) { FactoryGirl.build(:commit) }
         let(:rendered_commits) { [starting_commit, newer_commit] }
         let(:commits) { [too_old_commit] + rendered_commits }
 
-        let(:starting_commit_hash) { starting_commit.sha }
+        let(:starting_commit_hash) { "myprefix" }
 
         it "renders the starting commit and later" do
           expect(renderer).to receive(:render).with(rendered_commits)
