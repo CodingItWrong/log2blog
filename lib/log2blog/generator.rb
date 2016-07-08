@@ -21,12 +21,12 @@ module Log2Blog
           commit.sha.start_with?(starting_commit)
         end
       end
-      commits
+      commits or raise "Commit not found"
     end
 
     def elements_after_match(array, &block)
       start_index = array.index &block
-      array.slice(start_index..(array.length-1))
+      array.slice(start_index..(array.length-1)) unless start_index.nil?
     end
 
     def all_commits(user, repo)

@@ -23,7 +23,7 @@ module Log2Blog
         end
       end
 
-      context "when there is a starting commit" do
+      context "when there is a valid starting commit" do
         let(:too_old_commit) { FactoryGirl.build(:commit) }
         let(:starting_commit) { FactoryGirl.build(:commit, sha: "myprefix123") }
         let(:newer_commit) { FactoryGirl.build(:commit) }
@@ -35,6 +35,16 @@ module Log2Blog
         it "renders the starting commit and later" do
           expect(renderer).to receive(:render).with(rendered_commits)
           generate!
+        end
+      end
+
+      context "when there is an invalid starting commit" do
+        let(:commits) { FactoryGirl.build_list(:commit, 3) }
+
+        let(:starting_commit_hash) { "BAD" }
+
+        it "throws an exception" do
+          expect { generate! }.to raise_error "Commit not found"
         end
       end
     end
