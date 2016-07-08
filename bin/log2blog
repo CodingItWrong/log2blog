@@ -4,7 +4,6 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "log2blog"
 require "github_api"
 require "dotenv"
-require "pry"
 
 Dotenv.load
 
