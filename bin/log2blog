@@ -16,8 +16,7 @@ else
   repo = ENV["GITHUB_REPO"]
 end
 
-# todo make a command-line arg
-filenames_to_exclude = %w(composer.lock)
+filenames_to_exclude = ENV["SKIP_FILES"]
 
 generator = Log2Blog::Generator.new(
   commits_api: Log2Blog::GithubClient.new(
