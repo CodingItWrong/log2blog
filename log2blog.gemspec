@@ -13,5 +13,5 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
 
   s.add_dependency "github_api", "~> 0.14"
-  s.add_dependency "dotenv", "~> 2.1"
+  s.add_dependency "thor", "~> 0.19"
 end
