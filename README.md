@@ -68,12 +68,6 @@ You can skip outputting files matching certain names in all commits:
 bin/log2blog GITHUB_USERNAME/REPO_NAME 4342fbec671ab2ce202aa4997e1388b8bcbb48a1 --skip db/schema.rb --token GITHUB_OAUTH_TOKEN
 ```
 
-## Why Tho
-
-If you think about it, a programming tutorial article is not all that different from a git commit log. You have a series of steps, each of which changes one or more files, along with an accompanying explanation. But an article isn't executable; and, conversely, a git commit log isn't _quite_ as readable.
-
-Log2Blog allows you to generate an article from a git commit log, so that as you make changes to the repo history, the article can automatically be regenerated. It also links to each commit in GitHub individually, so that readers can interact with it, check out that version of the code, etc.
-
 ## Contributing
 
 Contributions to log2blog's code, tests, and documentation are welcome! To contribute:
