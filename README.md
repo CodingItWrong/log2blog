@@ -1,12 +1,10 @@
 # log2blog
 
-If you're writing a programming tutorial and you want an accompanying git repository showing the steps you took, then there can be a lot of duplication between the post and the git repository. It can be easy for them to get out of sync, and that's confusing for your readers. `log2blog` helps with this problem by automatically generating a blog post from your git log. All you have to do is put good descriptions of your steps in each commit message, and you'll end up with a great blog post with headings, file diffs, and descriptions matching your commits. Plus, you can easily regenerate any time your git log changes to ensure they're always in sync.
-
-As an example of an article generated via Log2Blog, see [learntdd.in/rails](http://learntdd.in/rails/).
+`log2blog` generates a Markdown version of your git commit history suitable for publishing as an article or blog post. This allows you to keep programming tutorial blog posts in sync with their corresponding git repo. If you have good descriptions of your steps in each commit message, you'll end up with a blog post with headings, file diffs, and descriptions matching your commits. Plus, you can regenerate the post any time your git log changes to ensure they're always in sync.
 
 ## Example
 
-Say you're writing a blog post on how to create a todo list app in Rails. In a project repo, for each step you want to appear in the blog post, make a separate commit with those changes. Be sure to include a verbose commit message, because it will be a big part of your post. For example, say you have one commit in your todo list app that adds the line `belongs_to :user` to the following file:
+Say you're writing a blog post on how to create a todo list app in Rails. In a project repo, for each step you want to appear in the blog post, make a separate commit with those changes and a verbose commit message. For example, say you have one commit in your todo list app that adds the line `belongs_to :user` to the following file:
 
 #### app/models/todo.rb
 
@@ -24,13 +22,15 @@ Relate todo to user
 Creates the many-to-one relationship between the todo and the user.
 ```
 
-Say your project is visible on GitHub at https://github.com/YourGitUserName/YourToDoListAppName. When you're ready to generate a post from your git commit history, run:
+When you're ready to generate a post from your git commit history, run:
 
 `log2blog YourGitUserName/YourToDoListAppName`
 
 This will output markdown corresponding to each commit, oldest to newest. It might render in a Jekyll blog, for example, as:
 
 <img src="https://raw.githubusercontent.com/CodingItWrong/log2blog/master/docs/images/output-example.png" style="border: solid 2px black" />
+
+For a real-world example of an article generated via Log2Blog, see [learntdd.in/rails](http://learntdd.in/rails/).
 
 ## Installation
 
