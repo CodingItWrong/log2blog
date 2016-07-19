@@ -7,8 +7,10 @@ require "thor"
 class MyCLI < Thor
   option :token, required: true, desc: "GitHub OAuth token"
   option :skip, desc: "File names to skip outputting"
+  
   desc "generate USER_AND_REPO", "Generate markdown for the specified GitHub repo"
   def generate(user_and_repo, starting_commit = nil)
+    
     user, repo = user_and_repo.split("/", 2)
     github_oauth_token = options[:token]
     filenames_to_skip = options[:skip]
@@ -24,4 +26,5 @@ class MyCLI < Thor
                                      starting_commit: starting_commit)
   end
 end
+
 MyCLI.start(ARGV)
