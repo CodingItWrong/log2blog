@@ -17,6 +17,12 @@ module Log2Blog
     def diff_body
       diff_lines.tap do |lines|
         lines.shift if lines.first.start_with?("@@")
+      end.map do |line|
+        if line.start_with?("@@")
+          "..."
+        else 
+          line
+        end
       end.join("\n")
     end
 
