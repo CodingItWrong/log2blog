@@ -35,7 +35,7 @@ module Log2Blog
 \#\#\#\# #{file.name}
 
 ```diff
-#{file.diff_body}
+{% raw %}#{file.diff_body}{% endraw %}
 ```
       EOT
     end
