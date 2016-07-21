@@ -58,6 +58,19 @@ module Log2Blog
         it { is_expected.to_not include(file_to_exclude.name) }
         it { is_expected.to include(file_to_include.name) }
       end
+      
+      context "when there is a pattern to exclude" do
+        let(:filename_to_exclude) { "directory/*" }
+
+        let(:file_to_exclude) { FactoryGirl.build(:commit_file, name: "directory/file.txt" ) }
+        let(:file_to_include) { FactoryGirl.build(:commit_file) }
+        let(:commits) { [FactoryGirl.build(:commit, files: [file_to_exclude, file_to_include] )] }
+
+        let(:filenames_to_exclude) { [filename_to_exclude] }
+
+        it { is_expected.to_not include(file_to_exclude.name) }
+        it { is_expected.to include(file_to_include.name) }
+      end
     end
   end
 end

@@ -27,7 +27,7 @@ module Log2Blog
     end
 
     def exclude_by_filename(files)
-      files.reject { |file| filenames_to_exclude.include?(file.name) }
+      files.reject { |file| Regexp.new(filenames_to_exclude) =~ file.name }
     end
 
     def render_file(file)
