@@ -13,7 +13,7 @@ module Log2Blog
     private
 
     def filenames_to_exclude
-      @filenames_to_exclude || []
+      @filenames_to_exclude
     end
 
     def render_commit(commit)
@@ -27,7 +27,11 @@ module Log2Blog
     end
 
     def exclude_by_filename(files)
-      files.reject { |file| Regexp.new(filenames_to_exclude) =~ file.name }
+      if filenames_to_exclude.nil?
+        files
+      else
+        files.reject { |file| Regexp.new(filenames_to_exclude) =~ file.name }
+      end
     end
 
     def render_file(file)
